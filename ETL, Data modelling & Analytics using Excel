@@ -1,0 +1,90 @@
+
+Business Problem Stat't : Company wants to perfom data analytics on its raw sales data to identify;
+                         - Which product categories are having best and worst figures?
+                         
+Steps to approach:
+ - Extract sales data from csv
+ - Load sales data into excel using power query
+ - Transform data (Using ETL operation in excel) as per business requirement
+ - Build a data model
+ - Build custom query to collect total sales by product category
+ - Create a dashboard in excel
+ 
+Excel power query will power this process:
+** Power query is a data connection technology that enables you to discover, connect, combine and refine
+   data sources to meet your analysis needs.
+   
+   Features of power query are available in excel and Power BI desktop.
+   
+** Power query steps:
+Connect >> Transform >> Combine >> Share
+
+Draw : Logical data model
+pdts > Order_details > orders
+ .
+ Categories
+ 
+ Reporting data model :
+ 
+ Product_DIM (dimentional table aka Product)  -  Orders_fact (fact table aka orders)
+ 
+ Process + Steps; "following the logical data model flow"
+ 
+ * New query > Select cvs file > Load to > instead of table choose only create connection 
+ (so that a table is not immediately created in excel) > select add data to data model
+ 
+ * To view if all the data is loaded > Manage data model (green icon above relationsips > relationship diagram to see already
+ the relationship of the data loaded > save and move on .
+ 
+ * Go to new query > combine queries > merge > select product & categories tables (they are joined by category
+ id) > select category-id (in both product & categories table) select inner join(take data from both tables based on category id)
+ 
+ * At power query editor > Rename to Product_Dim (dimension) > in categories_sales data (also has text instead of data = table) >
+  select only required data : CategoryID & CategoryName as others are not required.
+  
+  * Remove any columns not required within power query editor (if applicable)
+  
+  * Close & load to > will take you back to home > create new query > merge > select Order_details & order (as we want the name of
+  of the order) > rename to :Order_fact 
+  
+  * Go to orders_sales data (has the word "table" in rows not data) > only select orderdate(only required)
+  
+  * You can duplicate the orderdate column > rename order year > transform > select year & do the same for the second duplicate into: Order month
+  
+  * Remove columns like discount, ordersales data colum as they wont be used
+  
+  * Add custom column > Go to add column > custom column > re-name > Multiply unitprice by quantity
+  
+  * Remove unitprice and quantity columns as well as they wont be used.
+  
+  * Convert order_Fact table into data model > load to > only create connection > add to data model
+  
+  * Join productID from Product_Dim to productID of Order_fact then create another based on this join
+
+  * New query > OrderFact table + Product_Dim table > select productID in both tables to join the tables based on this ID >
+   make it an innerjoin
+   
+   * Go to categoryID data > select data you want to you prdtID prdtName, catgryID, ctgryName
+   
+   * Remove unwanted columns and remain with categoryName & sales amount
+   
+   * Rename columns accordingly and aggregate the sale based on different product categories.
+   (Use product sales and group by category)
+   
+   * Still in powerqueryeditor > Go to transform > select pdt category column > click on groupBy > change operation to SUM, rename column name > column ; totalsales
+   
+   * Convert total sales data into currency > sort it form descending 
+   *You can view query depencies from view
+  
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
